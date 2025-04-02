@@ -99,8 +99,7 @@ def play_audio_file(filename):
         if os.name == 'nt':  # Windows
             os.system(f'start wmplayer "{filename}"')
         elif os.name == 'posix':  # macOS and Linux
-            os.system(f'afplay "{filename}"')  # macOS
-            # For Linux, you might want to use 'aplay' or another audio player
+            os.system(f'afplay "{filename}"')
     except Exception as ex:
         print(f"Error playing audio file: {str(ex)}")
 
@@ -118,16 +117,9 @@ def speech_to_text():
         if result.reason == ResultReason.RecognizedSpeech:
             print(f"Você disse: {result.text}")
             return result.text.lower()
-        elif result.reason == ResultReason.NoMatch:
+        else:
             print("Não foi possível reconhecer o áudio")
             return None
-        elif result.reason == ResultReason.Canceled:
-            cancellation_details = result.cancellation_details
-            print(f"Reconhecimento cancelado: {cancellation_details.reason}")
-            if cancellation_details.reason == CancellationReason.Error:
-                print(f"Detalhes do erro: {cancellation_details.error_details}")
-            return None
-            
     except Exception as ex:
         print(f"STT Error: {str(ex)}")
         return None
